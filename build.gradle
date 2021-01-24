@@ -1,0 +1,55 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'pl.nullpointerexceprion'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+task generatePostsAndComments() {
+	doLast {
+		File dataSql = file("src/main/resources/data.sql")
+		dataSql.write("")
+		//posty
+		for (int i = 1; i <= 100; i++) {
+			dataSql.append("INSERT INTO post(id, title, content, created) " +
+			"VALUES (${i}, 'Test post ${i}', 'Content ${i}', '" + LocalDateTime.now().minusDays(100 - i) + "');\n")
+		}
+		//komentarz
+		for (int i = 1; i <= 100; i++) {
+			int postId = 1 + i / 10;
+			dataSql.append("INSERT INTO comment(id, post_id, content, created) " +
+			"VALUES(${i}, ${postId}, 'Comment ${i}', '"+ LocalDateTime.now().minusDays(100 - i) +"');\n")
+		}
+	}
+}
