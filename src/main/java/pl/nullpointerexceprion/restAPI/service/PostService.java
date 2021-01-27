@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.nullpointerexceprion.restAPI.model.Comment;
 import pl.nullpointerexceprion.restAPI.model.Post;
 import pl.nullpointerexceprion.restAPI.repository.CommentRepository;
@@ -50,5 +51,21 @@ public class PostService {
         return comments.stream()
                 .filter(comment -> comment.getPostId() == id)
                 .collect(Collectors.toList());
+    }
+
+    public Post addPost(Post post) {
+        return postRepository.save(post);
+    }
+
+    @Transactional
+    public Post editPost(Post post) {
+        Post postEdited = postRepository.findById(post.getId()).orElseThrow();
+        postEdited.setTitle(post.getTitle());
+        postEdited.setContent(post.getContent());
+        return postEdited;
+    }
+
+    public void deletePost(long id) {
+        postRepository.deleteById(id);
     }
 }
