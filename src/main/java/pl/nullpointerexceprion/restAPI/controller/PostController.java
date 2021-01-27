@@ -2,6 +2,8 @@ package pl.nullpointerexceprion.restAPI.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.nullpointerexceprion.restAPI.controller.dto.PostDto;
 import pl.nullpointerexceprion.restAPI.model.Post;
@@ -18,7 +20,8 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/posts")
-    public List<PostDto> getPost(@RequestParam(required = false) Integer page, Sort.Direction sort){
+    public List<PostDto> getPost(@RequestParam(required = false) Integer page, Sort.Direction sort,
+                                 @AuthenticationPrincipal UsernamePasswordAuthenticationToken user){
         int pageNumber = page != null && page >= 0 ? page : 0;
         Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
         return mapToPostDtos(postService.getPosts(pageNumber, sortDirection));
