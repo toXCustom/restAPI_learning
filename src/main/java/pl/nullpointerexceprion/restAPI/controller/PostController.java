@@ -25,6 +25,12 @@ public class PostController {
         return mapToPostDtos(postService.getPosts(pageNumber));
     }
 
+    @GetMapping("/posts/comments")
+    public List<Post> getPostWithComments(@RequestParam(required = false) int  page){
+        int pageNumber = page >= 0 ? page : 0;
+        return postService.getPostsWithComments(pageNumber);
+    }
+
     @GetMapping("/posts/{id}")
     public Post getSinglePost(@PathVariable long id){
         return postService.getSinglePost(id);
