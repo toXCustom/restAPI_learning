@@ -76,8 +76,8 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-    @CacheEvict(cacheNames = "PostsWithComments")
+    /*@CacheEvict(cacheNames = "PostsWithComments")
     public void clearPostsWithComments() {
 
-    }
+    }*/
 }
