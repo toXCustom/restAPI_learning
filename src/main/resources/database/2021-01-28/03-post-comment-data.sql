@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset pmroz:1
+--changeset pmroz:3
 INSERT INTO post(id, title, content, created) VALUES (1, 'Test post 1', 'Content 1', '2020-10-17T15:08:26.381556900');
 INSERT INTO post(id, title, content, created) VALUES (2, 'Test post 2', 'Content 2', '2020-10-18T15:08:26.381556900');
 INSERT INTO post(id, title, content, created) VALUES (3, 'Test post 3', 'Content 3', '2020-10-19T15:08:26.382555500');
